@@ -1,0 +1,26 @@
+version: '3'
+services:
+  db:
+    image: postgres:alpine
+    volumes:
+      - nextcloud-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_PASSWORD=7hPQdVB5K18Fp0Ji
+      - TZ=Asia/Shanghai
+  app:
+    image: nextcloud
+    volumes:
+      - nextcloud-data:/var/www/html
+    environment:
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_PASSWORD=7hPQdVB5K18Fp0Ji
+      - POSTGRES_HOST=db
+      - TZ=Asia/Shanghai
+    depends_on:
+      - db
+volumes:
+  nextcloud-data:
+  nextcloud-db:
