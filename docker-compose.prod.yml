@@ -8,7 +8,11 @@ services:
     restart: always
     networks:
       default:
-        ipv4_address: 172.20.0.3
+  web:
+    restart: always
+    networks:
+      default:
+        ipv4_address: 172.20.0.4
 networks:
   default:
     ipam:

@@ -3,16 +3,16 @@ services:
   db:
     image: postgres:alpine
     volumes:
-      - nextcloud-db:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=nextcloud
       - POSTGRES_USER=nextcloud
       - POSTGRES_PASSWORD=7hPQdVB5K18Fp0Ji
       - TZ=Asia/Shanghai
   app:
-    image: nextcloud
+    image: nextcloud:fpm
     volumes:
-      - nextcloud-data:/var/www/html
+      - nextcloud:/var/www/html
     environment:
       - POSTGRES_DB=nextcloud
       - POSTGRES_USER=nextcloud
@@ -21,6 +21,16 @@ services:
       - TZ=Asia/Shanghai
     depends_on:
       - db
+  web:
+    image: nginx
+    links:
+      - app
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    volumes_from:
+      - app
+    depends_on:
+      - app
 volumes:
-  nextcloud-data:
-  nextcloud-db:
+  nextcloud:
+  db:
